@@ -1,5 +1,6 @@
 # ContactPlus
-A browsable RESTful API for a Contact Management Application using Django and djangorestframework
+A browsable RESTful API for a Contact Management Application using Django and djangorestframework.
+It is a work in progress
 
 My introduction to Django, Django REST framework,
 Python Web Development.
