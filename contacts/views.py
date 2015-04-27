@@ -19,7 +19,7 @@ class CreateListContact(generics.ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         request.data['owner'] = request.user
-        return super(CreateListContact, self).post(self, request)
+        return super(CreateListContact, self).post(self, request, *args, **kwargs)
 
 
 class RetrieveUpdateDeleteContact(generics.RetrieveUpdateDestroyAPIView):
