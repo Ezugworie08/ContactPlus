@@ -1,5 +1,5 @@
 __author__ = 'Ikechukwu'
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 import views
 urlpatterns = patterns(
     '',
