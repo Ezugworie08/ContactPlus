@@ -7,6 +7,6 @@ urlpatterns = patterns(
     # url(r'^$', 'ContactPlus.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^', include('contacts.urls')),
+    url(r'^', include('contacts.urls', namespace='contacts')),
     url(r'^admin/', include(admin.site.urls)),
 )
