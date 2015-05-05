@@ -1,18 +1,16 @@
 __author__ = 'Ikechukwu'
+from django.contrib.auth.models import User
 
 from rest_framework import serializers
-from .models import Contact
-from django.contrib.auth.models import User
-# from localflavor.us.us_states import STATE_CHOICES
+from contacts.models import Contact
 
 
 class ContactSerializer(serializers.ModelSerializer):
-    # owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Contact
         fields = ('id', 'first_name', 'last_name', 'aka', 'mobile',
-                  'email', 'address', 'city', 'state', 'zip', 'avatar',)
+                  'email', 'address', 'city', 'state', 'zip_code', 'avatar',)
 
     # I found that the Base serializer in DRF does not implement
     # `create()`, and `update()` which requires and `instance`
@@ -30,12 +28,8 @@ class ContactSerializer(serializers.ModelSerializer):
             address=self.validated_data['address'],
             city=self.validated_data['city'],
             state=self.validated_data['state'],
-            zip=self.validated_data['zip'],
+            zip_code=self.validated_data['zip_code'],
             avatar=self.validated_data['avatar'],
-            # This mandates that the `owner` is passed in as part
-            # keyword args and as thus `owner=request.user`
-            # Since it is a Models.ForeignKeyField, which means it must not be empty,
-            # I don't know what default value to provide for `.pop()`
             owner=kwargs.pop('owner')
         )
         self.instance = new_instance
@@ -53,16 +47,35 @@ class ContactSerializer(serializers.ModelSerializer):
         instance.address = validated_data.get('address', instance.address),
         instance.city = validated_data.get('city', instance.city),
         instance.state = validated_data.get('state', instance.state),
-        instance.zip = validated_data.get('zip', instance.zip),
+        instance.zip_code = validated_data.get('zip_code', instance.zip_code),
         instance.avatar = validated_data.get('avatar', instance.avatar)
         instance.owner = kwargs.pop('owner')
         instance.save()
         return instance
 
 
-class UserSerializer(serializers.ModelSerializer):
+class NewUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email',)
-        read_only_fields = ('username', 'email',)
+        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            username=validated_data['username'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+
+# class ExistingUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
+#         extra_kwargs = {'password': {'write_only': True}}
+#

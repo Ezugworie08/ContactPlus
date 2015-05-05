@@ -1,7 +1,7 @@
 __author__ = 'Ikechukwu'
 
 from rest_framework import serializers
-from .models import Contact
+from contacts.models import Contact
 from django.contrib.auth.models import User
 from localflavor.us.us_states import STATE_CHOICES
 

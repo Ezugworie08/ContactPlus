@@ -2,17 +2,21 @@ __author__ = 'Ikechukwu'
 
 # My attempt at FAT Serializers and THIN Views
 
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
 from contacts.models import Contact
 from contacts.serializers import ContactSerializer
-from rest_framework import generics
-
+from contacts.permissions import IsOwner
 
 # Views rewritten using built-in generic views
+
 
 class CreateListContact(generics.ListCreateAPIView):
 
     model = Contact
     serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated, IsOwner)
 
     def get_queryset(self):
         return self.model.objects.filter(owner=self.request.user)
@@ -26,6 +30,7 @@ class RetrieveUpdateDeleteContact(generics.RetrieveUpdateDestroyAPIView):
 
     model = Contact
     serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated, IsOwner)
 
     def put(self, request, *args, **kwargs):
         request.data['owner'] = request.user

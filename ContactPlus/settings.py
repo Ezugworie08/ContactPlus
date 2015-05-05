@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users.ContactOwner'
 
 # Application definition
 
@@ -36,9 +37,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contacts',
+
+    # THIRD-PARTY APPS
     'localflavor',
     'django_extensions',
+    'rest_framework',
+    # 'rest_framework.authtoken',
+
+    # LOCAL APPS
+    'contacts',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,3 +96,16 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'users.auth.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ),
+}
