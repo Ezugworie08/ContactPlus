@@ -4,7 +4,9 @@ from rest_framework import status
 from rest_framework import permissions
 
 from users.models import ContactOwner
-from users.serializers import LoginRegisterSerializer
+from users.serializers import LoginRegisterSerializer, RegisterSerializer
+
+# TODO: Add an update endpoint for users.
 
 
 class RegisterContactOwner(APIView):
@@ -22,6 +24,23 @@ class RegisterContactOwner(APIView):
         owner = serializer.create(**serializer.validated_data)
         owner.login()
         return Response(owner.token, status=status.HTTP_201_CREATED)
+
+
+class UpdateContactOwner(APIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request):
+        serializer = RegisterSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        owner = serializer.update(**serializer.validated_data)
+        if owner:
+            # Either the password or email has been updated, so we need to reset token
+            owner.login()
+            return Response(owner.token, status=status.HTTP_201_CREATED)
+            # I honestly don't know what the right status code is
+        return Response("Sorry Bro! Try again", status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LoginContactOwner(APIView):

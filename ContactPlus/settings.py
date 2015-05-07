@@ -108,4 +108,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ),
+    'DEFAULT_FILTER_BACKEND': (
+        'contact.filters.IsOwnerFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    )
 }

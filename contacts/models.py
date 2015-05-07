@@ -9,6 +9,7 @@ from localflavor.us.us_states import STATE_CHOICES
 from localflavor.us.models import USZipCodeField, PhoneNumberField
 
 # TODO: Put a gender choices and add a gender field later.
+# TODO: Add a search end point
 
 
 class Contact(models.Model):
@@ -30,8 +31,8 @@ class Contact(models.Model):
     def __str__(self):
         return """
             My name is {0} {1}.
-            For 5 years, I was stuck in an Island (`Lian Yu`),
-            the Island changed me in so many ways you couldn't
+            For 12 hours in 3 months, I have been stuck in a state of improvement (phantom zone),
+            the zone changed me in so many ways you couldn't
             even begin to imagine. Now I have returned to kick some *** at Chipy.
-            To achieve this, I have to become something else `Python WEB DEV ninja`
+            To achieve this, I have to become something else, a `Python WEB DEV ninja`
             """.format(self.first_name, self.last_name)
