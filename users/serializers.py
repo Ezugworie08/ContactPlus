@@ -23,7 +23,7 @@ class LoginRegisterSerializer(serializers.ModelSerializer):
         # You might have to take this `write-only` restriction out.
         extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
+    def create(self, **validated_data):
         return refactored_create(validated_data)
 
 

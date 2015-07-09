@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 
     # THIRD-PARTY APPS
     'localflavor',
-    'django_extensions',
+    # 'django_extensions',
     'rest_framework',
     # 'rest_framework.authtoken',
 
@@ -112,5 +112,7 @@ REST_FRAMEWORK = {
         'contact.filters.IsOwnerFilterBackend',
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
-    )
+    ),
+
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }

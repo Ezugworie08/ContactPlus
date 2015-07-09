@@ -3,7 +3,8 @@
 """
 
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from users.models import ContactOwner
 
 from localflavor.us.us_states import STATE_CHOICES
 from localflavor.us.models import USZipCodeField, PhoneNumberField
@@ -14,7 +15,7 @@ from localflavor.us.models import USZipCodeField, PhoneNumberField
 
 class Contact(models.Model):
 
-    owner = models.ForeignKey(User, related_name='contacts')
+    owner = models.ForeignKey(ContactOwner, related_name='contacts')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=35)
     aka = models.CharField(max_length=40, blank=True, default="")

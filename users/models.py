@@ -19,8 +19,6 @@ class ContactOwnerManager(BaseUserManager):
     def create_superuser(self, email, password):
         user = self.create_user(email=email, password=password)
         user.is_admin = True
-        # TODO: ASK CHRIS which one is right.
-        # user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -29,8 +27,7 @@ def gen_token():
     return str(uuid.uuid4())
 
 
-class ContactOwner(PermissionsMixin, AbstractBaseUser):
-
+class ContactOwner(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', unique=True, max_length=255)
     token = models.CharField(max_length=36, default=gen_token)
 

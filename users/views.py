@@ -39,7 +39,7 @@ class UpdateContactOwner(APIView):
             owner.login()
             return Response(owner.token, status=status.HTTP_201_CREATED)
             # I honestly don't know what the right status code is
-        return Response("Sorry Bro! Try again", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Sorry folks! Try again", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -66,9 +66,4 @@ class LogoutContactOwner(APIView):
     def delete(self, request):
         request.user.logout()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-
-
 

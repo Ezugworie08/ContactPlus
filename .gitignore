@@ -68,14 +68,14 @@ build/
 *.tlb
 *.tli
 *.tlh
-*.tmp
+#*.tmp
 *.tmp_proj
 *.log
 *.vspscc
 *.vssscc
 .builds
 *.pidb
-*.log
+#*.log
 *.scc
 
 # Visual C++ cache files
@@ -194,7 +194,7 @@ $RECYCLE.BIN/
 *.egg
 *.egg-info
 dist/
-build/
+#build/
 eggs/
 parts/
 var/
@@ -215,7 +215,7 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-x-outdated
-php-users
-.idea
+x-outdated/
+php-users/
+.idea/
 db.sqlite3

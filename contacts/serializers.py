@@ -12,12 +12,6 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'aka', 'mobile',
                   'email', 'address', 'city', 'state', 'zip_code', 'avatar',)
 
-    # I found that the Base serializer in DRF does not implement
-    # `create()`, and `update()` which requires and `instance`
-    # argument just as you taught me.
-    # The defined `save()` calls the `create` and `update` operations
-    # if their respective requirements are met.
-
     def save(self, **kwargs):
         new_instance = self.model.objects.create(
             first_name=self.validated_data['first_name'],
