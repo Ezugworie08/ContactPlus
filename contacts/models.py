@@ -3,7 +3,6 @@
 """
 
 from django.db import models
-# from django.contrib.auth.models import User
 from users.models import ContactOwner
 
 from localflavor.us.us_states import STATE_CHOICES
@@ -24,7 +23,7 @@ class Contact(models.Model):
     address = models.CharField(max_length=220)
     city = models.CharField(max_length=50)  # get django city extensions
     state = models.CharField(max_length=2, choices=STATE_CHOICES)
-    zip_code = USZipCodeField()
+    zip_code = USZipCodeField(blank=True, default="")
     avatar = models.URLField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

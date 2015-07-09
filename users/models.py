@@ -10,8 +10,11 @@ from django.contrib.auth.models import (
 
 class ContactOwnerManager(BaseUserManager):
 
-    def create_user(self, email, password):
-        user = self.model(email=self.normalize_email(email))
+    def create_user(self, email, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(email=self.normalize_email(email),)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -27,7 +30,7 @@ def gen_token():
     return str(uuid.uuid4())
 
 
-class ContactOwner(AbstractBaseUser):
+class ContactOwner(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', unique=True, max_length=255)
     token = models.CharField(max_length=36, default=gen_token)
 
@@ -40,13 +43,13 @@ class ContactOwner(AbstractBaseUser):
         return self.is_admin
 
     def get_full_name(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
+        return self.email
 
     def get_short_name(self):
         return self.email
 
     def __str__(self):
-        return "{0}: {1} {2}".format(self.email, self.username)
+        return self.email
 
     def login(self):
         self.token = gen_token()

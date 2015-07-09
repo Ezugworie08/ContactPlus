@@ -28,6 +28,11 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.ContactOwner'
 
+LOGIN_URL = '/users/user/login/'
+LOGIN_REDIRECT_URL = '/contacts/'
+LOGOUT_URL = '/users/user/logout'
+
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -42,6 +47,7 @@ INSTALLED_APPS = (
     'localflavor',
     # 'django_extensions',
     'rest_framework',
+    'braces',
     # 'rest_framework.authtoken',
 
     # LOCAL APPS

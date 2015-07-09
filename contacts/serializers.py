@@ -1,5 +1,4 @@
 __author__ = 'Ikechukwu'
-from django.contrib.auth.models import User
 
 from rest_framework import serializers
 from contacts.models import Contact
@@ -9,7 +8,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
-        fields = ('id', 'first_name', 'last_name', 'aka', 'mobile',
+        fields = ('id', 'owner', 'first_name', 'last_name', 'aka', 'mobile',
                   'email', 'address', 'city', 'state', 'zip_code', 'avatar',)
 
     def save(self, **kwargs):
@@ -46,30 +45,3 @@ class ContactSerializer(serializers.ModelSerializer):
         instance.owner = kwargs.pop('owner')
         instance.save()
         return instance
-
-
-class NewUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User(
-            username=validated_data['username'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            email=validated_data['email'],
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
-
-# class ExistingUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name')
-#         extra_kwargs = {'password': {'write_only': True}}
-#
