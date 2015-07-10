@@ -43,7 +43,6 @@ class CreateUserTest(TestUserMixin, APITestCase):
         self.assertEqual(response.data['email'], self.EMAIL)
         self.assertEqual(response.data['password'], self.PASSWORD)
 
-
     def test_create_user_without_email(self):
 
         url = reverse('users:register')
