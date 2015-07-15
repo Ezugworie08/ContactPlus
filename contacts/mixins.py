@@ -1,8 +1,8 @@
-__author__ = 'adede08'
+__author__ = 'Ikechukwu'
 from users.models import ContactOwner
 
 
-class LoginUserMixin(object):
+class TestUserMixin(object):
     """ This class set's up a TEST user. """
 
     EMAIL = 'ovute.ugwoke@yahoo.com'
@@ -16,6 +16,8 @@ class LoginUserMixin(object):
             password=self.PASSWORD,
         )
         assert user
+        user.login()
+        assert user.token
+
         self.user = user
-        if user.token:
-            self.auth = {'HTTP_AUTHORIZATION': 'Token: {0}'.format(user.token)}
+        self.auth = {'HTTP_AUTHORIZATION': 'Token: {0}'.format(user.token)}

@@ -2,6 +2,7 @@ __author__ = 'Chris:foresmac@vokal.io'
 
 from django.contrib.auth import get_user_model
 from rest_framework.authentication import BaseAuthentication
+from rest_framework import exceptions
 
 
 class TokenAuthentication(BaseAuthentication):
@@ -13,7 +14,8 @@ class TokenAuthentication(BaseAuthentication):
         if not token:
             return None
 
-        # The value for the header should be something like: 'Token: e3f4c35c-7681-4b4c-aa8b-e63fb5c27a8d'
+        # The value for the header should be something like:
+        # 'Token: e3f4c35c-7681-4b4c-aa8b-e63fb5c27a8d'
         # This line extracts the token from the value of the header
         token = token.split(':')[-1].strip()
 
@@ -22,6 +24,7 @@ class TokenAuthentication(BaseAuthentication):
         try:
             user = user_model.objects.get(token=token)
         except user_model.DoesNotExist:
-            return None
+            # return None
+            raise exceptions.AuthenticationFailed('No such user')
 
         return user, None

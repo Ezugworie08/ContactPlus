@@ -57,4 +57,3 @@ class RetrieveUpdateDeleteContact(generics.RetrieveUpdateDestroyAPIView):
     def patch(self, request, *args, **kwargs):
         request.data['owner'] = request.user
         return super(RetrieveUpdateDeleteContact, self).patch(self, request, *args, **kwargs)
-

@@ -32,7 +32,7 @@ def gen_token():
 
 class ContactOwner(PermissionsMixin, AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', unique=True, max_length=255)
-    token = models.CharField(max_length=36, default=gen_token)
+    token = models.CharField(max_length=36, default="")
 
     USERNAME_FIELD = 'email'
 
