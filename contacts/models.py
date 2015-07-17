@@ -30,9 +30,5 @@ class Contact(models.Model):
 
     def __str__(self):
         return """
-            My name is {0} {1}.
-            For 12 hours in 3 months, I have been stuck in a state of improvement (phantom zone),
-            the zone changed me in so many ways you couldn't
-            even begin to imagine. Now I have returned to kick some *** at Chipy.
-            To achieve this, I have to become something else, a `Python WEB DEV ninja`
-            """.format(self.first_name, self.last_name)
+            My name is {0} {1}. Shoot me an Email at {2}
+            """.format(self.first_name, self.last_name, self.email)

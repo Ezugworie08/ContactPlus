@@ -2,9 +2,10 @@ __author__ = 'Ikechukwu'
 
 # My attempt at FAT Serializers and THIN Views
 
-from rest_framework import generics
+from rest_framework import generics, mixins, status, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.response import Response
 
 from contacts.models import Contact
 from contacts.serializers import ContactSerializer
@@ -30,30 +31,50 @@ class ContactSearch(generics.ListAPIView):
 #   Ask chris if this needs a url
 
 
-class CreateListContact(generics.ListCreateAPIView):
+class CreateListContact(views.APIView):
+
+    def get(self, request):
+        contacts = Contact.objects.filter(owner=request.user)
+        result = ContactSerializer(contacts, many=True)
+        return Response(result.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        request.data['owner'] = request.user.id
+        incoming = ContactSerializer(data=request.data)
+        if not incoming.is_valid(raise_exception=True):
+            return Response(incoming.errors, status=status.HTTP_400_BAD_REQUEST)
+        new_contact = incoming.create(incoming.validated_data)
+        outgoing = ContactSerializer(instance=new_contact)
+        return Response(outgoing.data, status=status.HTTP_201_CREATED)
+
+
+class RetrieveUpdateDeleteContact(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
 
     model = Contact
     serializer_class = ContactSerializer
     permission_classes = (IsAuthenticated, IsOwner)
 
-    def get_queryset(self):
-        return self.model.objects.filter(owner=self.request.user)
+    def get_object(self, pk):
+        return self.model.objects.get(pk=pk)
 
-    def post(self, request, *args, **kwargs):
-        request.data['owner'] = request.user
-        return super(CreateListContact, self).post(self, request, *args, **kwargs)
+    def get(self, request, pk):
+        contact = self.get_object(pk)
+        result = ContactSerializer(contact)
+        return Response(result.data, status=status.HTTP_200_OK)
 
-
-class RetrieveUpdateDeleteContact(generics.RetrieveUpdateDestroyAPIView):
-
-    model = Contact
-    serializer_class = ContactSerializer
-    permission_classes = (IsAuthenticated, IsOwner)
+    def patch(self, request, pk):
+        contact = self.get_object(pk)
+        incoming = ContactSerializer(instance=contact, data=request.data, partial=True)
+        if not incoming.is_valid(raise_exception=True):
+            return Response(incoming.errors, status=status.HTTP_400_BAD_REQUEST)
+        new_contact = incoming.save()
+        outgoing = ContactSerializer(instance=new_contact)
+        return Response(outgoing.data, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         request.data['owner'] = request.user
-        return super(RetrieveUpdateDeleteContact, self).put(self, request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        request.data['owner'] = request.user
-        return super(RetrieveUpdateDeleteContact, self).patch(self, request, *args, **kwargs)
+        return super(RetrieveUpdateDeleteContact, self).update(self, request, *args, **kwargs)
+    #
+    # def patch(self, request, *args, **kwargs):
+    #     request.data['owner'] = request.user
+    #     return super(RetrieveUpdateDeleteContact, self).partial_update(self, request, *args, **kwargs)

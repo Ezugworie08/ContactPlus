@@ -20,10 +20,10 @@ from contacts.mixins import TestUserMixin
 # user/logout
 
 
-class CreateUserTest(APITestCase):
+class RegisterUserTest(APITestCase):
 
     # Do not forget to test for a valid login here since `register` calls `login`
-    EMAIL = 'ovute.ugwoke@yahoo.com'
+    EMAIL = 'rapast@yahoo.com'
     PASSWORD = 'aVadacadavRa02'
 
     def test_register_user(self):
@@ -49,7 +49,7 @@ class CreateUserTest(APITestCase):
         # According to the docs, the error[s] come with a `detail`/`field name` key if it is a Validation error.
         self.assertIn('This field is required.', response.data['email'])
 
-    def test_create_user_without_password(self):
+    def test_register_user_without_password(self):
 
         url = reverse('users:register')
         data = {
