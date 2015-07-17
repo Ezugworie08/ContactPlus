@@ -102,6 +102,10 @@ class LogoutUserTest(TestUserMixin, APITestCase):
         url = reverse('users:logout')
         # self.client.credentials(**self.auth)
         response = self.client.delete(url, **self.auth)
+        self.assertEqual(response.data, None)
+        self.assertTrue(response)
+        print(response.data)
+        print(response.status_code)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_logout_not_authenticated_user(self):

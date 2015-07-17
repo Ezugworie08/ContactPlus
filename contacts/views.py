@@ -75,6 +75,17 @@ class RetrieveUpdateDeleteContact(mixins.RetrieveModelMixin, mixins.UpdateModelM
         outgoing = ContactSerializer(instance=new_contact)
         return Response(outgoing.data, status=status.HTTP_200_OK)
 
-    def put(self, request, *args, **kwargs):
-        request.data['owner'] = request.user
-        return super(RetrieveUpdateDeleteContact, self).update(self, request, *args, **kwargs)
+    def put(self, request, pk):
+        contact = self.my_get_object(pk)
+        incoming = ContactSerializer(instance=contact, data=request.data, partial=True)
+        if not incoming.is_valid(raise_exception=True):
+            return Response(incoming.errors, status=status.HTTP_400_BAD_REQUEST)
+        new_contact = incoming.save()
+        outgoing = ContactSerializer(instance=new_contact)
+        return Response(outgoing.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        contact = self.my_get_object(pk)
+        contact.delete()
+        print("This shit ran like hell.")
+        return Response(status=status.HTTP_204_NO_CONTENT)
