@@ -162,26 +162,26 @@ class RetrieveUpdateDeleteContact(TestUserMixin, APITestCase):
                 'email': "fcuk@zombie.com"
             }
             response = self.client.patch(url, data=data, format='json')
-            # print(response.data)
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        def test_put_user(self):
-            contact_pk = self.create_contact()
-            url = reverse('contacts:single-contact', kwargs={'pk': contact_pk})
-            data = {
-                'first_name': "Yanki",
-                'last_name': "Twizzy",
-                'mobile': "+14898823654",
-                'email': "zoe@zombie.com",
-                'state': "AZ",
-                'city': "jedi",
-                'zip_code': "50578-4545",
-                'address': "115 Edem Road, Ekwulobia",
-            }
-            response = self.client.put(url, data=data, format='json')
             print(response.data)
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            self.assertTrue(response.data)
+
+        # def test_put_user(self):
+        #     contact_pk = self.create_contact()
+        #     url = reverse('contacts:single-contact', kwargs={'pk': contact_pk})
+        #     data = {
+        #         'first_name': "Yanki",
+        #         'last_name': "Twizzy",
+        #         'mobile': "+14898823654",
+        #         'email': "zoe@zombie.com",
+        #         'state': "AZ",
+        #         'city': "jedi",
+        #         'zip_code': "50578-4545",
+        #         'address': "115 Edem Road, Ekwulobia",
+        #     }
+        #     response = self.client.put(url, data=data, format='json')
+        #     print(response.data)
+        #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+        #     self.assertTrue(response.data)
 
 
 

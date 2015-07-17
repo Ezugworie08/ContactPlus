@@ -52,18 +52,22 @@ class RetrieveUpdateDeleteContact(mixins.RetrieveModelMixin, mixins.UpdateModelM
 
     model = Contact
     serializer_class = ContactSerializer
+    lookup_field = 'pk'
     permission_classes = (IsAuthenticated, IsOwner)
 
-    def get_object(self, pk):
+    def get_queryset(self):
+        return self.model.objects.filter(owner=self.request.user)
+
+    def my_get_object(self, pk):
         return self.model.objects.get(pk=pk)
 
     def get(self, request, pk):
-        contact = self.get_object(pk)
+        contact = self.my_get_object(pk)
         result = ContactSerializer(contact)
         return Response(result.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
-        contact = self.get_object(pk)
+        contact = self.my_get_object(pk)
         incoming = ContactSerializer(instance=contact, data=request.data, partial=True)
         if not incoming.is_valid(raise_exception=True):
             return Response(incoming.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -74,7 +78,3 @@ class RetrieveUpdateDeleteContact(mixins.RetrieveModelMixin, mixins.UpdateModelM
     def put(self, request, *args, **kwargs):
         request.data['owner'] = request.user
         return super(RetrieveUpdateDeleteContact, self).update(self, request, *args, **kwargs)
-    #
-    # def patch(self, request, *args, **kwargs):
-    #     request.data['owner'] = request.user
-    #     return super(RetrieveUpdateDeleteContact, self).partial_update(self, request, *args, **kwargs)
