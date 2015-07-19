@@ -216,7 +216,7 @@ pip-log.txt
 .mr.developer.cfg
 
 x-outdated/
-php-users/
+x-outdated/php-users/
 .idea/
 db.sqlite3
 migrations/
