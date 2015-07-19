@@ -3,9 +3,8 @@ from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from contacts.mixins import TestUserMixin #, TestContactMixin
+from contacts.mixins import TestUserMixin
 
-# Create your tests here.
 """
 Test these:
 contact/:id GET
@@ -35,7 +34,6 @@ class CreateListContactTest(TestUserMixin, APITestCase):
         }
         self.client.credentials(**self.auth)
         response = self.client.post(url, data, format='json')
-        # print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(response.data)
         self.assertTrue(response.data['owner'])
@@ -192,12 +190,3 @@ class RetrieveUpdateDeleteContact(TestUserMixin, APITestCase):
             print(response.data)
             print(response.status_code)
             self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-# class RetrieveUpdateDeleteContact(TestContactMixin, APITestCase):
-#
-#     def test_get_user(self):
-#         url = reverse('contacts:single-contact', kwargs={'pk': self.contact_pk})
-#         self.client.credentials(**self.auth)
-#         response = self.client.get(url)
-#         print(response.data)
-

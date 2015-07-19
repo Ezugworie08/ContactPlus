@@ -5,7 +5,7 @@ from users.models import ContactOwner
 class LoginUserMixin(object):
     """ This class set's up a TEST user. """
 
-    EMAIL = 'ovute.ugwoke@yahoo.com'
+    EMAIL = 'ovute.ugwoke@foo.com'
     PASSWORD = 'aVadacadavRa02'
     user = None
     auth = None

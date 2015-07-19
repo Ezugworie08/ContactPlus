@@ -1,7 +1,5 @@
 __author__ = 'Ikechukwu'
 
-# My attempt at FAT Serializers and THIN Views
-
 from rest_framework import generics, mixins, status, views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -12,23 +10,19 @@ from contacts.serializers import ContactSerializer
 from contacts.permissions import IsOwner
 from contacts.filters import IsOwnerFilterBackend
 
-# Views rewritten using built-in generic views
-
 
 class ContactSearch(generics.ListAPIView):
+
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    # Ask Chris to help you figure out perms_map from
-    # http://www.django-rest-framework.org/api-guide/filtering/#djangoobjectpermissionsfilter
     permission_classes = (IsAuthenticated, IsOwner)
-    filter_backends = (IsOwnerFilterBackend, SearchFilter, OrderingFilter,)  # Unsure so ask Chris
+    filter_backends = (IsOwnerFilterBackend, SearchFilter, OrderingFilter,)
     search_fields = (
         '^first_name', '^last_name', '=email', '=mobile',
         '=zip_code', '^aka', '=state', '=city',
     )
     ordering_fields = ('last_name', 'first_name', 'email', 'state', 'city', 'mobile')
     ordering = '__all__'
-#   Ask chris if this needs a url
 
 
 class CreateListContact(views.APIView):
@@ -48,7 +42,11 @@ class CreateListContact(views.APIView):
         return Response(outgoing.data, status=status.HTTP_201_CREATED)
 
 
-class RetrieveUpdateDeleteContact(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, generics.GenericAPIView):
+class RetrieveUpdateDeleteContact(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    generics.GenericAPIView
+):
 
     model = Contact
     serializer_class = ContactSerializer

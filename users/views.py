@@ -20,8 +20,6 @@ class RegisterContactOwner(APIView):
 
 
 class LoginContactOwner(APIView):
-    # TODO: Write an `AllowRegistered` permission.
-    # I know it will lead to redundant code but `AllowAny` for `login` operation sounds incomplete.
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):

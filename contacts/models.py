@@ -21,7 +21,7 @@ class Contact(models.Model):
     mobile = PhoneNumberField()
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=220)
-    city = models.CharField(max_length=50)  # get django city extensions
+    city = models.CharField(max_length=50)
     state = models.CharField(max_length=2, choices=STATE_CHOICES)
     zip_code = USZipCodeField(blank=True, default="")
     avatar = models.URLField(blank=True, default="")

@@ -45,10 +45,7 @@ INSTALLED_APPS = (
 
     # THIRD-PARTY APPS
     'localflavor',
-    # 'django_extensions',
     'rest_framework',
-    'braces',
-    # 'rest_framework.authtoken',
 
     # LOCAL APPS
     'contacts',
